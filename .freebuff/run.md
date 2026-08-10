@@ -82,6 +82,37 @@ Sans ces variables, les fonctions répondent en 503 avec des instructions et
 l'application bascule en mode local (générateur de note hors-ligne, aucune
 sauvegarde cloud) — l'expérience reste complète.
 
+## GitHub + CI + previews
+
+- **Dépôt** : https://github.com/titoune33/equilibre-transparence-salariale (privé, branch `main`)
+- **CI** : `.github/workflows/ci.yml` — npm ci, typecheck (frontend + api), tests Vitest, build, sur chaque push/PR.
+  ⚠️ Ne PAS monter vitest à la major 4 : il tire vite 8 + esbuild 0.28 dont le
+  lock devient incohérent avec la politique npm locale (allowScripts).
+  Utiliser vitest 2.x (compatible vite 5).
+- **Previews Vercel par branche** : le projet est connecté à GitHub
+  (`vercel git connect https://github.com/titoune33/...`). Chaque push de
+  branche crée une preview ; `main` déploie la production.
+- Rappel : pousser/redéployer = `git push` (auto) ou `vercel --prod --yes`.
+
+## Authentification multi-comptes
+
+- Endpoints : `api/auth/{inscription,connexion,etat,deconnexion}` ; session
+  httpOnly `equilibre_session` (30 j, cookie SameSite=Lax, Secure en prod).
+- Tables Airtable (base TalentPulse) : `Utilisateurs` (email, nom,
+  mot_de_passe scrypt sel:hash, cree_le) et `Sessions` (token, email,
+  expire_le). `Sauvegardes` porte un champ `email` : chaque compte ne voit
+  que ses propres sauvegardes (filtre serveur, 401 si non connecté).
+- L'app fonctionne en « mode invité » sans compte ; la connexion est requise
+  pour la sauvegarde cloud. En dev local (pas de /api), tout bascule en mode
+  invité automatiquement.
+
+## Incidents notables
+
+- **10/08/2026 — perte du workspace** : `/Users/titouanwajda/freebuf` a été
+  vidé (seul `.vite` restait). Récupéré intégralement depuis GitHub
+  (clone). Leçon : pousser régulièrement ; le repo distant est la source de
+  vérité. `tsconfig.tsbuildinfo` n'est plus versionné.
+
 ### Variables d'environnement (configurées le 10/08/2026)
 
 1. `HF_TOKEN` — token gratuit https://huggingface.co/settings/tokens (permission « Make calls to Inference Providers ») — **configuré**
