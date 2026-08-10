@@ -1,0 +1,36 @@
+{
+  "name": "equilibre-transparence-salariale",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "SaaS de conformité transparence salariale (directive UE 2023/970) — analyse des écarts de rémunération, rapports conformes, fourchettes salariales.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc -b --noEmit && tsc -p tsconfig.api.json",
+    "test": "vitest run",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "docx": "^9.7.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.18.2",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vercel/node": "^5.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11",
+    "vitest": "^4.1.10"
+  },
+  "allowScripts": {
+    "esbuild@0.21.5": true,
+    "esbuild@0.27.0": true,
+    "esbuild@0.27.7": true
+  }
+}

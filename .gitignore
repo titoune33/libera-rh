@@ -1,0 +1,19 @@
+# Dépendances et build
+node_modules/
+dist/
+
+# Internes de l'app Freebuff (logs, pid, base locale) — sauf doc et script de dev
+.freebuff/*
+!.freebuff/run.md
+!.freebuff/start-dev.py
+
+# Environnement et secrets
+.env
+.env.*
+!.env.example
+
+# Système / éditeurs
+.DS_Store
+Thumbs.db
+*.log
+.vercel
