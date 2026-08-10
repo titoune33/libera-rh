@@ -98,12 +98,14 @@ export function AppShell() {
         onSeDeconnecter={seDeconnecter}
       />
       <main id="contenu" className="main-content" tabIndex={-1}>
-        <ExerciceBar
-          exercices={exercices}
-          actif={exerciceActif}
-          onSelect={setExerciceActif}
-          onAjouter={ajouterExercice}
-        />
+        {page !== "connexion" && (
+          <ExerciceBar
+            exercices={exercices}
+            actif={exerciceActif}
+            onSelect={setExerciceActif}
+            onAjouter={ajouterExercice}
+          />
+        )}
         {page === "connexion" && (
           <LoginScreen apiIndisponible={auth.apiIndisponible} onConnecte={connecte} onRetour={() => setPage("dashboard")} />
         )}

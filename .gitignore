@@ -1,6 +1,7 @@
 # Dépendances et build
 node_modules/
 dist/
+tsconfig.tsbuildinfo
 
 # Internes de l'app Freebuff (logs, pid, base locale) — sauf doc et script de dev
 .freebuff/*

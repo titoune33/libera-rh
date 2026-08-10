@@ -796,6 +796,12 @@ table.data tbody tr:hover {
   }
 
   .sidebar-footer {
+    margin-top: 0;
+    padding: 0;
+    border-top: none;
+  }
+
+  .sidebar-footer > div:first-child {
     display: none;
   }
 
