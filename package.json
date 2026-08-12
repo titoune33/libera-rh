@@ -1,9 +1,9 @@
 {
-  "name": "equilibre-transparence-salariale",
+  "name": "libera-rh",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
-  "description": "SaaS de conformité transparence salariale (directive UE 2023/970) — analyse des écarts de rémunération, rapports conformes, fourchettes salariales.",
+  "description": "Libera RH — plateforme RH IA : conformité salariale (directive UE 2023/970, Egapro), benchmark, module attrition (ex-TalentPulse/PeoplePulse), LLM Gateway unifié.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

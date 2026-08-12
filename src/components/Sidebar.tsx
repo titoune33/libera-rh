@@ -16,6 +16,7 @@ import {
   IconUsers,
   IconCard,
   IconGlobe,
+  IconHeart,
 } from "./icons";
 
 const NAV: { id: PageId; label: string; icon: ComponentType<{ size?: number; className?: string }>; admin?: boolean }[] = [
@@ -27,6 +28,7 @@ const NAV: { id: PageId; label: string; icon: ComponentType<{ size?: number; cla
   { id: "fourchettes", label: "Fourchettes salariales", icon: IconScale },
   { id: "benchmark", label: "Benchmark salarial", icon: IconGlobe },
   { id: "rattrapage", label: "Plan de rattrapage", icon: IconTrending },
+  { id: "attrition", label: "Risque de départ", icon: IconHeart },
   { id: "dossiers", label: "Dossiers & partage", icon: IconFolder },
   { id: "conformite", label: "Guide de conformité", icon: IconShield },
   { id: "abonnement", label: "Abonnement", icon: IconCard },

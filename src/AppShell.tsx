@@ -19,9 +19,10 @@ import { AdminPage } from "./components/AdminPage";
 import { ChatWidget } from "./components/ChatWidget";
 import { AbonnementPage } from "./components/AbonnementPage";
 import { BenchmarkPage } from "./components/BenchmarkPage";
+import { AttritionPage } from "./components/AttritionPage";
 import { verifierAbonnement, type EtatAbonnement } from "./lib/abonnementClient";
 
-export type PageId = "dashboard" | "import" | "analyse" | "rapport" | "fourchettes" | "benchmark" | "conformite" | "rattrapage" | "index" | "dossiers" | "admin" | "connexion" | "abonnement";
+export type PageId = "dashboard" | "import" | "analyse" | "rapport" | "fourchettes" | "benchmark" | "conformite" | "rattrapage" | "index" | "dossiers" | "admin" | "connexion" | "abonnement" | "attrition";
 
 export interface Exercice {
   exercice: string;
@@ -151,6 +152,7 @@ export function AppShell() {
         {page === "dossiers" && <DossiersPage utilisateur={auth.utilisateur} apiIndisponible={auth.apiIndisponible} planGratuit={Boolean(auth.connecte && abo?.plan === "gratuit")} />}
         {page === "admin" && <AdminPage utilisateur={auth.utilisateur} />}
         {page === "abonnement" && <AbonnementPage abo={abo} connecte={auth.connecte} stripeConfigure={Boolean(abo?.stripeConfigure)} />}
+        {page === "attrition" && <AttritionPage utilisateur={auth.utilisateur} apiIndisponible={auth.apiIndisponible} />}
       </main>
       {page !== "connexion" && <ChatWidget jeu={jeu} resultat={resultat} planGratuit={Boolean(auth.connecte && abo?.plan === "gratuit")} />}
     </div>

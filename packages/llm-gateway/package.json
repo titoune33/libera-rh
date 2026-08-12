@@ -1,0 +1,16 @@
+{
+  "name": "@libera/llm-gateway",
+  "version": "1.0.0",
+  "description": "Passerelle LLM unifiée du portefeuille Libera RH : routage par tâche, fallback, budget, cache, coûts.",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": ["src"],
+  "scripts": {
+    "test": "vitest run"
+  },
+  "keywords": ["llm", "gateway", "routing", "deepseek", "mistral", "huggingface"],
+  "license": "MIT"
+}
