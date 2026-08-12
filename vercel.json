@@ -3,5 +3,12 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/api/auth/github/callback", "destination": "/api/auth?route=github-callback" },
+    { "source": "/api/auth/google/callback", "destination": "/api/auth?route=google-callback" },
+    { "source": "/api/auth/:route", "destination": "/api/auth?route=:route" },
+    { "source": "/api/admin/:route", "destination": "/api/admin?route=:route" },
+    { "source": "/api/stripe/webhook", "destination": "/api/abonnement?route=webhook" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ]
 }

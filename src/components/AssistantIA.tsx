@@ -5,7 +5,7 @@ import { genererNoteLocale } from "../lib/assistantLocal";
 import { Badge, Banner } from "./ui";
 import { IconInfo, IconSparkles } from "./icons";
 
-function construireContexte(jeu: JeuDeDonnees, resultat: ResultatAnalyse): string {
+export function construireContexte(jeu: JeuDeDonnees, resultat: ResultatAnalyse): string {
   const g = resultat.global;
   const categories = resultat.parCategorie
     .filter((c) => c.effectifF > 0 && c.effectifH > 0)

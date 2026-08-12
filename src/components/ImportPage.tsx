@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { JeuDeDonnees } from "../lib/types";
 import { importerCSV, telechargerTemplate } from "../lib/importCsv";
 import { SAMPLE_DATA } from "../lib/sampleData";
@@ -33,9 +33,22 @@ export function ImportPage({
   const [erreurs, setErreurs] = useState<{ ligne: number; message: string }[]>([]);
   const [dernierImport, setDernierImport] = useState<string | null>(null);
   const [sauvegardes, setSauvegardes] = useState<SauvegardeCloud[]>([]);
+  const [dossiers, setDossiers] = useState<{ id: string; nom: string }[]>([]);
+  const [dossierActif, setDossierActif] = useState("");
   const [chargementCloud, setChargementCloud] = useState(false);
   const [messageCloud, setMessageCloud] = useState<{ niveau: "ok" | "attention" | "critique"; texte: string } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Charge les dossiers du compte pour rattacher les sauvegardes.
+  useEffect(() => {
+    if (!utilisateur) return;
+    fetch("/api/dossiers")
+      .then((r) => r.json().catch(() => null))
+      .then((data) => {
+        if (data?.liste) setDossiers(data.liste.map((d: { id: string; nom: string }) => ({ id: d.id, nom: d.nom })));
+      })
+      .catch(() => undefined);
+  }, [utilisateur]);
 
   const traiterFichier = (file: File) => {
     if (!file.name.toLowerCase().endsWith(".csv")) {
@@ -199,6 +212,27 @@ export function ImportPage({
             <p className="muted small" style={{ marginBottom: 12 }}>
               Connecté en tant que <strong>{utilisateur.nom}</strong> ({utilisateur.email}).
             </p>
+            <div className="field" style={{ maxWidth: 420 }}>
+              <label htmlFor="sauvegarde-dossier">Dossier de conformité (facultatif)</label>
+              <select
+                id="sauvegarde-dossier"
+                className="input"
+                value={dossierActif}
+                onChange={(e) => setDossierActif(e.target.value)}
+              >
+                <option value="">— Aucun dossier —</option>
+                {dossiers.map((d) => (
+                  <option key={d.id} value={d.id}>
+                    {d.nom}
+                  </option>
+                ))}
+              </select>
+              <p className="muted small" style={{ marginTop: 6 }}>
+                {dossiers.length === 0
+                  ? "Créez des dossiers partageables depuis « Dossiers & partage »."
+                  : "Rattachez cette sauvegarde à un dossier pour la partager par lien."}
+              </p>
+            </div>
             <div className="rapport-actions">
           <button
             className="btn btn-primary"
@@ -214,6 +248,7 @@ export function ImportPage({
                     id: `${jeu.societe.nom}-${jeu.societe.exercice}`.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
                     nom: jeu.societe.nom,
                     exercice: jeu.societe.exercice,
+                    dossier: dossierActif || undefined,
                     payload: jeu,
                   }),
                 });

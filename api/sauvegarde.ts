@@ -58,12 +58,18 @@ export default async function sauvegarde(req: VercelRequest, res: VercelResponse
     }
 
     if (req.method === "POST") {
-      const { id, nom, exercice, payload } = (req.body ?? {}) as { id?: string; nom?: string; exercice?: string; payload?: unknown };
+      const { id, nom, exercice, payload, dossier } = (req.body ?? {}) as {
+        id?: string;
+        nom?: string;
+        exercice?: string;
+        payload?: unknown;
+        dossier?: string;
+      };
       if (!id || payload === undefined) {
         envoyerErreur(res, 400, "Champs requis : id, payload.");
         return;
       }
-      const champs = {
+      const champs: Record<string, unknown> = {
         id,
         nom: nom ?? "Sans nom",
         exercice: exercice ?? "",
@@ -71,6 +77,7 @@ export default async function sauvegarde(req: VercelRequest, res: VercelResponse
         maj: new Date().toISOString(),
         email: utilisateur.email,
       };
+      if (dossier) champs.dossier = dossier;
 
       const filtre = encodeURIComponent(`{id} = "${id.replace(/"/g, "")}"`);
       const recherche = await fetch(`${urlTable}?filterByFormula=${filtre}&maxRecords=1`, { headers });

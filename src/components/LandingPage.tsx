@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { LogoMark } from "./Logo";
 import {
   IconScale,
   IconShield,
@@ -16,7 +17,7 @@ const FEATURES = [
     icon: IconUpload,
     titre: "Import des données de paie",
     texte:
-      "Glissez-déposez votre export de paie (CSV). Aucune intégration lourde : Équilibre s'adapte à votre HRIS, quel qu'il soit.",
+      "Glissez-déposez votre export de paie (CSV). Aucune intégration lourde : Équitia s'adapte à votre HRIS, quel qu'il soit.",
   },
   {
     icon: IconChart,
@@ -70,43 +71,45 @@ const ETAPES = [
 
 const TARIFS = [
   {
-    nom: "Découverte",
+    nom: "Gratuit",
     prix: "0 €",
     periode: "pour toujours",
-    cta: "Ouvrir la démo",
+    cta: "Créer un compte gratuit",
     ctaPrimary: false,
+    lien: "/app",
     points: [
-      "Jeu de démonstration inclus",
+      "1 dossier de conformité",
       "Analyse complète des écarts",
-      "Rapport conforme (copie)",
-      "Jusqu'à 25 salariés",
+      "Index d'égalité /100",
+      "Guide de conformité",
     ],
   },
   {
-    nom: "Conformité",
+    nom: "Pro",
     prix: "49 €",
     periode: "/ mois / société",
-    cta: "Démarrer l'essai de 14 jours",
+    cta: "S'abonner — 49 €/mois",
     ctaPrimary: true,
     populaire: true,
+    lien: "/tarifs",
     points: [
-      "Jusqu'à 250 salariés",
-      "Exports Word, Excel & PDF",
-      "Fourchettes salariales",
-      "Benchmark sectoriel",
-      "Multi-exercices & historique",
+      "Dossiers illimités",
+      "Exports Word, Excel & CSV",
+      "Assistant IA & fourchettes",
+      "Plan de rattrapage & benchmark",
     ],
   },
   {
-    nom: "ETI & Groupes",
+    nom: "Entreprise",
     prix: "Sur devis",
     periode: "tarification annuelle",
-    cta: "Parler à un expert",
+    cta: "Contacter",
     ctaPrimary: false,
+    lien: "/tarifs",
     points: [
-      "Salariés illimités, multi-entités",
-      "API et connecteurs HRIS",
-      "Rapports consolidés par entité",
+      "Multi-utilisateurs & rôles",
+      "API & connecteurs HRIS",
+      "Rapports consolidés multi-entités",
       "Accompagnement juridique",
     ],
   },
@@ -122,8 +125,8 @@ const FAQ = [
     r: "Un simple export de votre paie : nom (optionnel), genre, catégorie professionnelle, poste, salaire annuel brut équivalent temps plein. Le modèle CSV est téléchargeable depuis l'application, et vos données ne quittent jamais votre navigateur.",
   },
   {
-    q: "Équilibre remplace-t-il mon SIRH ou ma paie ?",
-    r: "Non, et c'est voulu. Équilibre est un outil de conformité spécialisé, pas un SIRH : il se branche par-dessus vos outils existants et couvre la transparence salariale que les grands SIRH traitent en module annexe.",
+    q: "Équitia remplace-t-il mon SIRH ou ma paie ?",
+    r: "Non, et c'est voulu. Équitia est un outil de conformité spécialisé, pas un SIRH : il se branche par-dessus vos outils existants et couvre la transparence salariale que les grands SIRH traitent en module annexe.",
   },
   {
     q: "Le rapport généré est-il juridiquement valable ?",
@@ -140,11 +143,9 @@ export function LandingPage() {
     <div className="landing">
       {/* ---------- Navigation ---------- */}
       <header className="landing-nav">
-        <a href="#top" className="landing-brand" aria-label="Équilibre — retour en haut">
-          <span className="landing-brand-logo" aria-hidden="true">
-            <IconScale size={18} />
-          </span>
-          <span>Équilibre</span>
+        <a href="#top" className="landing-brand" aria-label="Équitia — retour en haut">
+          <LogoMark size={30} />
+          <span>Équitia</span>
         </a>
         <nav className="landing-nav-links" aria-label="Navigation">
           <a href="#fonctionnalites">Fonctionnalités</a>
@@ -169,7 +170,7 @@ export function LandingPage() {
               La transparence salariale, <span className="landing-gradient">sans douleur.</span>
             </h1>
             <p className="landing-hero-sub">
-              Équilibre analyse vos écarts de rémunération, génère votre rapport conforme et vos fourchettes salariales en quelques
+              Équitia analyse vos écarts de rémunération, génère votre rapport conforme et vos fourchettes salariales en quelques
               minutes — sans intégration, sans juriste, sans SIRH à remplacer.
             </p>
             <div className="landing-hero-cta">
@@ -184,18 +185,18 @@ export function LandingPage() {
           </div>
 
           {/* Mockup produit */}
-          <div className="landing-mockup" role="img" aria-label="Aperçu du tableau de bord Équilibre : score d'égalité 90/100, écart moyen de 5,6 %, actions recommandées">
+          <div className="landing-mockup" role="img" aria-label="Aperçu du tableau de bord Équitia : score d'égalité 90/100, écart moyen de 5,6 %, actions recommandées">
             <div className="mockup-bar">
               <span className="mockup-dot" style={{ background: "#f87171" }} />
               <span className="mockup-dot" style={{ background: "#fbbf24" }} />
               <span className="mockup-dot" style={{ background: "#34d399" }} />
-              <span className="mockup-url">app.equilibre.fr — Tableau de bord</span>
+              <span className="mockup-url">app.equitia.fr — Tableau de bord</span>
             </div>
             <div className="mockup-body">
               <div className="mockup-side">
                 <div className="mockup-logo">
-                  <IconScale size={14} />
-                  Équilibre
+                  <LogoMark size={22} />
+                  Équitia
                 </div>
                 <span className="mockup-nav mockup-nav-active">Tableau de bord</span>
                 <span className="mockup-nav">Analyse des écarts</span>
@@ -364,7 +365,7 @@ export function LandingPage() {
                     </li>
                   ))}
                 </ul>
-                <Link to="/app" className={`btn ${t.ctaPrimary ? "btn-primary" : ""}`}>
+                <Link to={t.lien} className={`btn ${t.ctaPrimary ? "btn-primary" : ""}`}>
                   {t.cta}
                 </Link>
               </article>
@@ -401,13 +402,11 @@ export function LandingPage() {
       <footer className="landing-footer">
         <div className="landing-footer-inner">
           <div className="landing-footer-brand">
-            <span className="landing-brand-logo" aria-hidden="true">
-              <IconScale size={16} />
-            </span>
-            <span>Équilibre — Transparence salariale</span>
+            <LogoMark size={28} />
+            <span>Équitia — Transparence salariale</span>
           </div>
           <p>Directive (UE) 2023/970 · Index d'égalité professionnelle · AI Act. Les rapports générés ne remplacent pas un avis juridique.</p>
-          <p className="landing-footer-legal">© 2026 Équilibre. Démo construite avec React, TypeScript et Vite.</p>
+          <p className="landing-footer-legal">© 2026 Équitia. Démo construite avec React, TypeScript et Vite.</p>
         </div>
       </footer>
     </div>

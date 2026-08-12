@@ -9,6 +9,12 @@
   --c-primary-strong: #4338ca;
   --c-primary-soft: #eef2ff;
   --c-primary-border: #c7d2fe;
+  --c-brand-1: #8b5cf6;
+  --c-brand-2: #6366f1;
+  --c-brand-3: #4f46e5;
+  --grad-brand: linear-gradient(135deg, #8b5cf6 0%, #6366f1 55%, #4f46e5 100%);
+  --grad-brand-soft: linear-gradient(135deg, rgba(139, 92, 246, 0.14), rgba(79, 70, 229, 0.14));
+  --grad-hero: linear-gradient(180deg, #0f172a 0%, #1e1b4b 55%, #312e81 100%);
   --c-bg: #f8fafc;
   --c-surface: #ffffff;
   --c-surface-alt: #f1f5f9;
@@ -164,17 +170,18 @@ textarea {
   width: 34px;
   height: 34px;
   border-radius: 9px;
-  background: var(--c-primary);
+  background: var(--grad-brand);
   display: grid;
   place-items: center;
   color: #fff;
   flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(99, 102, 241, 0.35);
 }
 
 .brand-name {
-  font-weight: 700;
+  font-weight: 800;
   font-size: 17px;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .brand-tag {
@@ -216,9 +223,10 @@ textarea {
 }
 
 .nav-link[aria-current="page"] {
-  background: var(--c-primary-soft);
+  background: var(--grad-brand-soft);
   color: var(--c-primary-strong);
   font-weight: 600;
+  box-shadow: inset 0 0 0 1px var(--c-primary-border);
 }
 
 .nav-link svg {
@@ -474,13 +482,15 @@ table.data tbody tr:hover {
 }
 
 .btn-primary {
-  background: var(--c-primary);
-  border-color: var(--c-primary);
+  background: var(--grad-brand);
+  border-color: transparent;
   color: #fff;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.32);
 }
 
 .btn-primary:hover {
-  background: var(--c-primary-strong);
+  filter: brightness(1.06);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.42);
 }
 
 .btn-ghost {
@@ -849,5 +859,480 @@ table.data tbody tr:hover {
     box-shadow: none;
     border: none;
     padding: 0;
+  }
+
+  .chat-widget {
+    display: none !important;
+  }
+}
+
+/* ============================================================
+   Équitia — Administration, dossiers, chat, connexions sociales
+   ============================================================ */
+
+/* ---------- Badge admin & bouton danger doux ---------- */
+.badge-admin {
+  background: rgba(139, 92, 246, 0.12);
+  color: #6d28d9;
+  border-color: rgba(139, 92, 246, 0.35);
+}
+
+.btn-danger-soft {
+  border-color: var(--c-danger-border);
+  color: #b91c1c;
+  background: var(--c-danger-soft);
+}
+
+.btn-danger-soft:hover {
+  background: #fee2e2;
+}
+
+/* ---------- Administration : intégrations ---------- */
+.integration-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  background: var(--c-surface);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-ok {
+  background: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18);
+}
+
+.dot-off {
+  background: #cbd5e1;
+}
+
+/* ---------- Dossiers ---------- */
+.dossier-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-4);
+}
+
+.dossier-card {
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  background: var(--c-surface);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.dossier-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.dossier-card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.dossier-card-head h3 {
+  font-size: 16px;
+  margin-bottom: 2px;
+}
+
+.dossier-card-head .badge {
+  margin-left: auto;
+}
+
+.dossier-card-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--grad-brand-soft);
+  color: var(--c-primary-strong);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.dossier-card-meta {
+  font-size: 12.5px;
+  color: var(--c-text-faint);
+}
+
+.dossier-card-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: var(--space-3);
+  border-top: 1px dashed var(--c-border);
+}
+
+/* ---------- Connexions sociales ---------- */
+.login-social {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: var(--space-4);
+}
+
+.login-social-btn {
+  width: 100%;
+  min-height: 42px;
+  font-size: 13.5px;
+}
+
+.login-social-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 var(--space-4);
+  color: var(--c-text-faint);
+  font-size: 12.5px;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--c-border);
+}
+
+/* ---------- Chat widget ---------- */
+.chat-widget {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.chat-fab {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: none;
+  background: var(--grad-brand);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.45);
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+  font-size: 20px;
+}
+
+.chat-fab:hover {
+  transform: scale(1.06);
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.55);
+}
+
+.chat-panel {
+  width: min(380px, calc(100vw - 32px));
+  max-height: min(560px, calc(100vh - 120px));
+  display: flex;
+  flex-direction: column;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
+  overflow: hidden;
+}
+
+.chat-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--grad-brand);
+  color: #fff;
+}
+
+.chat-head-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 14.5px;
+}
+
+.chat-mode {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.chat-close {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+}
+
+.chat-close:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.chat-body {
+  padding: 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--c-bg);
+  min-height: 160px;
+  flex: 1;
+}
+
+.chat-msg {
+  max-width: 88%;
+  padding: 10px 13px;
+  border-radius: 14px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.chat-msg-user {
+  align-self: flex-end;
+  background: var(--grad-brand);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.chat-msg-assistant {
+  align-self: flex-start;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-bottom-left-radius: 4px;
+}
+
+.chat-welcome p {
+  font-size: 13.5px;
+  color: var(--c-text-soft);
+  margin-bottom: 10px;
+}
+
+.chat-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chat-chip {
+  font-size: 12.5px;
+  border: 1px solid var(--c-primary-border);
+  background: var(--c-primary-soft);
+  color: var(--c-primary-strong);
+  border-radius: 999px;
+  padding: 5px 12px;
+  cursor: pointer;
+  min-height: 30px;
+}
+
+.chat-chip:hover {
+  background: #e0e7ff;
+}
+
+.chat-typing {
+  color: var(--c-text-faint);
+  font-style: italic;
+}
+
+.chat-dots {
+  animation: chat-blink 1.2s infinite;
+}
+
+@keyframes chat-blink {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.chat-input {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--c-border);
+  background: var(--c-surface);
+}
+
+.chat-input input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 12px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+}
+
+.chat-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 11.5px;
+  color: var(--c-text-faint);
+  background: var(--c-warn-soft);
+  border-top: 1px solid var(--c-warn-border);
+}
+
+/* ---------- Page de partage public ---------- */
+.partage-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--c-bg);
+}
+
+.partage-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: 16px clamp(20px, 5vw, 64px);
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-border);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.partage-brand {
+  color: var(--c-text);
+  text-decoration: none;
+}
+
+.partage-main {
+  flex: 1;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-6) clamp(20px, 5vw, 64px);
+}
+
+.partage-foot {
+  padding: 20px clamp(20px, 5vw, 64px);
+  border-top: 1px solid var(--c-border);
+  background: var(--c-surface);
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--c-text-faint);
+}
+
+/* ---------- Abonnement / Tarifs ---------- */
+table.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+  background: var(--c-surface);
+}
+
+table.table th {
+  text-align: left;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--c-text-faint);
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--c-border);
+  background: var(--c-surface-alt);
+  white-space: nowrap;
+}
+
+table.table td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--c-border);
+  vertical-align: middle;
+}
+
+table.table tr:last-child td {
+  border-bottom: none;
+}
+
+th.abo-col-pop {
+  background: rgba(79, 70, 229, 0.06) !important;
+}
+
+.abo-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+.abo-card-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.abo-badge {
+  font-size: 16px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 999px;
+}
+
+.abo-badge[data-plan="gratuit"] {
+  background: rgba(148, 163, 184, 0.12);
+  color: #64748b;
+}
+
+.abo-badge[data-plan="pro"] {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+
+.abo-badge[data-plan="entreprise"] {
+  background: rgba(139, 92, 246, 0.12);
+  color: #7c3aed;
+}
+
+.abo-card-actions {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--c-border);
+}
+
+@media (max-width: 640px) {
+  .login-social {
+    grid-template-columns: 1fr;
+  }
+
+  .dossier-grid {
+    grid-template-columns: 1fr;
   }
 }

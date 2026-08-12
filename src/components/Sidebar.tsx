@@ -1,17 +1,36 @@
 import type { ComponentType } from "react";
 import type { PageId } from "../AppShell";
 import type { Utilisateur } from "../lib/authClient";
-import { IconDashboard, IconUpload, IconChart, IconDoc, IconScale, IconShield, IconTrending, IconCheck } from "./icons";
+import type { EtatAbonnement } from "../lib/abonnementClient";
+import { Logo } from "./Logo";
+import {
+  IconDashboard,
+  IconUpload,
+  IconChart,
+  IconDoc,
+  IconScale,
+  IconShield,
+  IconTrending,
+  IconCheck,
+  IconFolder,
+  IconUsers,
+  IconCard,
+  IconGlobe,
+} from "./icons";
 
-const NAV: { id: PageId; label: string; icon: ComponentType<{ size?: number; className?: string }> }[] = [
+const NAV: { id: PageId; label: string; icon: ComponentType<{ size?: number; className?: string }>; admin?: boolean }[] = [
   { id: "dashboard", label: "Tableau de bord", icon: IconDashboard },
   { id: "import", label: "Données & import", icon: IconUpload },
   { id: "analyse", label: "Analyse des écarts", icon: IconChart },
   { id: "index", label: "Index d'égalité complet", icon: IconCheck },
   { id: "rapport", label: "Rapport conforme", icon: IconDoc },
   { id: "fourchettes", label: "Fourchettes salariales", icon: IconScale },
+  { id: "benchmark", label: "Benchmark salarial", icon: IconGlobe },
   { id: "rattrapage", label: "Plan de rattrapage", icon: IconTrending },
+  { id: "dossiers", label: "Dossiers & partage", icon: IconFolder },
   { id: "conformite", label: "Guide de conformité", icon: IconShield },
+  { id: "abonnement", label: "Abonnement", icon: IconCard },
+  { id: "admin", label: "Administration", icon: IconUsers, admin: true },
 ];
 
 export function Sidebar({
@@ -23,6 +42,7 @@ export function Sidebar({
   apiIndisponible,
   onSeConnecter,
   onSeDeconnecter,
+  abo,
 }: {
   page: PageId;
   onNavigate: (p: PageId) => void;
@@ -32,22 +52,20 @@ export function Sidebar({
   apiIndisponible: boolean;
   onSeConnecter: () => void;
   onSeDeconnecter: () => void;
+  abo: EtatAbonnement | null;
 }) {
+  const estAdmin = utilisateur?.role === "admin";
+  const liens = NAV.filter((item) => !item.admin || estAdmin);
+
   return (
     <aside className="sidebar" aria-label="Navigation principale">
       <div className="brand">
-        <span className="brand-logo" aria-hidden="true">
-          <IconScale size={18} />
-        </span>
-        <div>
-          <div className="brand-name">Équilibre</div>
-          <div className="brand-tag">Transparence salariale</div>
-        </div>
+        <Logo size={32} tagline="Conformité salariale" />
       </div>
 
       <nav className="nav" aria-label="Sections">
         <div className="nav-label">Pilotage</div>
-        {NAV.map((item) => {
+        {liens.map((item) => {
           const Icon = item.icon;
           const courant = page === item.id;
           return (
@@ -87,7 +105,38 @@ export function Sidebar({
             <>
               <div style={{ fontSize: 12.5, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis" }} title={utilisateur.email}>
                 {utilisateur.nom}
+                {estAdmin && (
+                  <span
+                    className="badge badge-admin"
+                    style={{ marginLeft: 8, fontSize: 11, fontWeight: 700, color: "#7c3aed", background: "rgba(139,92,246,.12)" }}
+                  >
+                    Admin
+                  </span>
+                )}
               </div>
+              <div style={{ fontSize: 11.5, color: "var(--c-text-faint)", overflow: "hidden", textOverflow: "ellipsis" }} title={utilisateur.email}>
+                {utilisateur.email}
+              </div>
+              {abo && (
+                <div style={{ fontSize: 12, margin: "2px 0 4px" }}>
+                  <span className="badge" data-plan={abo.plan} style={{
+                    background: abo.plan === "pro" || abo.plan === "entreprise" ? "rgba(16,185,129,.12)" : "rgba(148,163,184,.12)",
+                    color: abo.plan === "pro" || abo.plan === "entreprise" ? "#059669" : "#64748b",
+                    fontWeight: 600,
+                  }}>
+                    {abo.plan === "gratuit" ? "Gratuit" : abo.plan === "pro" ? "Pro" : "Entreprise"}
+                  </span>
+                  {abo.plan === "gratuit" && (
+                    <a
+                      href="#abonnement"
+                      onClick={(e) => { e.preventDefault(); onNavigate("abonnement"); }}
+                      style={{ marginLeft: 6, fontSize: 11.5, color: "var(--c-primary)", textDecoration: "none" }}
+                    >
+                      Passer à Pro
+                    </a>
+                  )}
+                </div>
+              )}
               <button className="btn btn-ghost" style={{ padding: "5px 10px", minHeight: 30, fontSize: 12.5 }} onClick={onSeDeconnecter}>
                 Se déconnecter
               </button>

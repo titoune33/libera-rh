@@ -1,6 +1,7 @@
 export interface Utilisateur {
   nom: string;
   email: string;
+  role?: "admin" | "utilisateur";
 }
 
 export interface EtatAuth {
@@ -36,6 +37,14 @@ export async function verifierEtatAuth(): Promise<EtatAuth> {
   }
 }
 
+export async function verifierSocial(): Promise<{ google: boolean; github: boolean }> {
+  try {
+    return await appel<{ google: boolean; github: boolean }>("/api/auth/social", undefined, 3000);
+  } catch {
+    return { google: false, github: false };
+  }
+}
+
 export async function inscrire(nom: string, email: string, motDePasse: string): Promise<Utilisateur> {
   const data = await appel<{ utilisateur: Utilisateur }>("/api/auth/inscription", { nom, email, motDePasse }, 20000);
   return data.utilisateur;
@@ -48,4 +57,16 @@ export async function connecter(email: string, motDePasse: string): Promise<Util
 
 export async function deconnecter(): Promise<void> {
   await appel<{ ok: boolean }>("/api/auth/deconnexion", {});
+}
+
+export async function envoyerVerificationEmail(): Promise<void> {
+  await appel<{ ok: boolean }>("/api/auth/envoyer-verification", {});
+}
+
+export async function envoyerResetMotDePasse(email: string): Promise<void> {
+  await appel<{ ok: boolean }>("/api/auth/envoyer-reset", { email }, 20000);
+}
+
+export async function reinitialiserMotDePasse(token: string, motDePasse: string): Promise<void> {
+  await appel<{ ok: boolean }>("/api/auth/reinitialiser-mdp", { token, motDePasse }, 20000);
 }

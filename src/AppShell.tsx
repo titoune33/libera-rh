@@ -14,8 +14,14 @@ import { PlanRattrapagePage } from "./components/PlanRattrapagePage";
 import { IndexCompletPage } from "./components/IndexCompletPage";
 import { LoginScreen } from "./components/LoginScreen";
 import { ExerciceBar } from "./components/ExerciceBar";
+import { DossiersPage } from "./components/DossiersPage";
+import { AdminPage } from "./components/AdminPage";
+import { ChatWidget } from "./components/ChatWidget";
+import { AbonnementPage } from "./components/AbonnementPage";
+import { BenchmarkPage } from "./components/BenchmarkPage";
+import { verifierAbonnement, type EtatAbonnement } from "./lib/abonnementClient";
 
-export type PageId = "dashboard" | "import" | "analyse" | "rapport" | "fourchettes" | "conformite" | "rattrapage" | "index" | "connexion";
+export type PageId = "dashboard" | "import" | "analyse" | "rapport" | "fourchettes" | "benchmark" | "conformite" | "rattrapage" | "index" | "dossiers" | "admin" | "connexion" | "abonnement";
 
 export interface Exercice {
   exercice: string;
@@ -55,6 +61,29 @@ export function AppShell() {
     { exercice: "2024", jeu: { ...SAMPLE_DATA, societe: { ...SAMPLE_DATA.societe, exercice: "2024" } } },
   ]);
   const [exerciceActif, setExerciceActif] = useState(0);
+  const [abo, setAbo] = useState<EtatAbonnement | null>(null);
+
+  // Vérifie l'abonnement au montage, et surveille les retours Stripe dans l'URL
+  useEffect(() => {
+    let actif = true;
+    if (auth.connecte) {
+      verifierAbonnement().then((e) => {
+        if (actif) setAbo(e);
+      });
+    }
+    // Navigue vers la page abonnement si le paramètre est présent
+    const params = new URLSearchParams(window.location.search);
+    if ((params.get("abonnement") === "1" || params.get("succes") === "1") && auth.connecte) {
+      setPage("abonnement");
+    }
+    if (params.get("plan") === "pro" && !auth.connecte) {
+      setPage("connexion");
+    }
+    if (params.get("reset") && !auth.connecte) {
+      setPage("connexion");
+    }
+    return () => { actif = false; };
+  }, [auth.connecte]);
 
   const actif = exercices[exerciceActif];
   const jeu = actif.jeu;
@@ -96,6 +125,7 @@ export function AppShell() {
         apiIndisponible={auth.apiIndisponible}
         onSeConnecter={() => navigate("connexion")}
         onSeDeconnecter={seDeconnecter}
+        abo={abo}
       />
       <main id="contenu" className="main-content" tabIndex={-1}>
         {page !== "connexion" && (
@@ -112,12 +142,17 @@ export function AppShell() {
         {page === "dashboard" && <Dashboard jeu={jeu} resultat={resultat} onNavigate={navigate} exercices={exercices} exerciceActif={exerciceActif} />}
         {page === "import" && <ImportPage jeu={jeu} onJeuChange={chargerJeu} onNavigate={navigate} utilisateur={auth.utilisateur} apiIndisponible={auth.apiIndisponible} />}
         {page === "analyse" && <AnalysePage jeu={jeu} resultat={resultat} />}
-        {page === "rapport" && <RapportPage jeu={jeu} resultat={resultat} />}
+        {page === "rapport" && <RapportPage jeu={jeu} resultat={resultat} planGratuit={Boolean(auth.connecte && abo?.plan === "gratuit")} />}
         {page === "fourchettes" && <FourchettesPage jeu={jeu} resultat={resultat} />}
+        {page === "benchmark" && <BenchmarkPage jeu={jeu} utilisateur={auth.utilisateur} apiIndisponible={auth.apiIndisponible} plan={abo?.plan ?? null} />}
         {page === "conformite" && <ConformitePage resultat={resultat} />}
         {page === "rattrapage" && <PlanRattrapagePage jeu={jeu} resultat={resultat} />}
         {page === "index" && <IndexCompletPage jeu={jeu} onNavigate={navigate} />}
+        {page === "dossiers" && <DossiersPage utilisateur={auth.utilisateur} apiIndisponible={auth.apiIndisponible} planGratuit={Boolean(auth.connecte && abo?.plan === "gratuit")} />}
+        {page === "admin" && <AdminPage utilisateur={auth.utilisateur} />}
+        {page === "abonnement" && <AbonnementPage abo={abo} connecte={auth.connecte} stripeConfigure={Boolean(abo?.stripeConfigure)} />}
       </main>
+      {page !== "connexion" && <ChatWidget jeu={jeu} resultat={resultat} planGratuit={Boolean(auth.connecte && abo?.plan === "gratuit")} />}
     </div>
   );
 }
